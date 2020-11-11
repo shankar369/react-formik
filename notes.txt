@@ -1,0 +1,5 @@
+FastField component is used to optimize render
+validateOnChange={false} means the error object will not populate on change of input text
+validateOnBlur={false} means the error object will not populate on blur
+isValid is used to know if our form has any errors
+dirty property is used to know if any value changed in form
