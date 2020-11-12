@@ -1,4 +1,4 @@
-# React Formik Sample project
+# React Formik Sample Project
 
 ### `Declarative`
 
