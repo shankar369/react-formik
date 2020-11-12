@@ -3,22 +3,35 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormikControl from "../FormikControl";
 
-function LoginForm() {
+function RegistrationForm() {
+  const options = [
+    { key: "Email", value: "emailmoc" },
+    { key: "Telephone", value: "telephonemoc" },
+  ];
   const initialValues = {
     email: "",
     password: "",
+    confirmPassword: "",
+    modeOfContact: "",
+    phone: "",
   };
   const validationSchema = Yup.object({
     email: Yup.string().email("Invalid email format").required("Required"),
     password: Yup.string().required("Required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), ""], "passwords must match")
+      .required("Required"),
+    modeOfContact: Yup.string().required("Required"),
+    phone: Yup.string().when("modeOfContact", {
+      is: "telephonemoc",
+      then: Yup.string().required("Required"),
+    }),
   });
-
   const onSubmit = (values, onSubmitProps) => {
     console.log(values);
     onSubmitProps.setSubmitting(false);
     onSubmitProps.resetForm();
   };
-
   return (
     <Formik
       initialValues={initialValues}
@@ -39,8 +52,26 @@ function LoginForm() {
             label="Password"
             name="password"
           />
+          <FormikControl
+            control="input"
+            type="password"
+            label="Confirm Password"
+            name="confirmPassword"
+          />
+          <FormikControl
+            control="radio"
+            label="Mode of contact"
+            name="modeOfContact"
+            options={options}
+          />
+          <FormikControl
+            control="input"
+            type="text"
+            label="Phone Number"
+            name="phone"
+          />
           <button type="submit" disabled={!formik.isValid}>
-            Login
+            Submit
           </button>
         </Form>
       )}
@@ -48,4 +79,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default RegistrationForm;
